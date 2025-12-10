@@ -10,6 +10,8 @@ const app = express();
 app.use(express.json());
 
 connectDB();
+console.log("hello my friend");
+
 
 app.use("/", indexRoutes);
 
