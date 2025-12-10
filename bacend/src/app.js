@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import indexRoutes from "./routes/index.route.js";
+import { errorHandle } from "./middleware/error-handle.js";
 
 dotenv.config();
 
@@ -11,6 +12,8 @@ app.use(express.json());
 connectDB();
 
 app.use("/", indexRoutes);
+
+app.use( errorHandle)
 
 const PORT = process.env.PORT || 9000;
 

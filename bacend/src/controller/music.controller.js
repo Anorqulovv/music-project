@@ -1,45 +1,52 @@
 import Music from "../schema/music.schema.js";
+import { succesRes } from "../utils/succes-response.js";
+import { ApiError } from "../utils/customer-error.js";
+import { catchAsync } from '../middleware/catch-async.js'
 
-class MusicCT{
-  async createMusic(req,res){
-    try {
-    const { title, artist, album, genre, url } = req.body;
+class MusicCT {
 
-    if (!url) return res.status(400).json({ message: "Music URL required" });
+  create = catchAsync(async(req, res) =>{
+    const track = await Music.create(req.body);
+    return succesRes(res, track, 201);
+  })
 
-    const track = await Music.create({
-      title,
-      artist,
-      album,
-      genre,
-      url
-    });
+  getAll = catchAsync(async(req,res) =>{
+    const tracks = await Music.find()
+        .sort({ createdAt: -1 })
+        .populate("albom");
 
-    res.json({ message: "Track saved", track });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-  }
+      return succesRes(res, tracks, 200);
+  })
 
-  async getAllMusic(req,res){
-    try {
-      const tracks = await Music.find().sort({ createdAt: -1 });
-      res.json(tracks);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+  get = catchAsync(async(req, res) =>{
+    const track = await Music.findById(req.params.id).populate("albom");
+      if (!track) throw new ApiError("Not found", 404);
 
-  async getMusic(req,res){
-    try {
-      const track = await Music.findById(req.params.id);
-      if (!track) return res.status(404).json({ message: "Not found" });
-      res.json(track);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+      return succesRes(res, track, 200);
+  })
+
+  update = catchAsync(async(req, res) =>{
+    const id = req.params.id;
+
+      const track = await Music.findById(id);
+      if (!track) throw new ApiError("Not found", 404);
+
+      const updatedTrack = await Music.findByIdAndUpdate(id, req.body, { new: true });
+
+      return succesRes(res, updatedTrack, 200);
+  })
+
+  remove = catchAsync(async(req, res) =>{
+    const id = req.params.id;
+
+      const track = await Music.findById(id);
+      if (!track) throw new ApiError("Not found", 404);
+
+      await Music.findByIdAndDelete(id);
+
+      return succesRes(res, "Music deleted successfully", 200);
+  })
+
 }
-
 
 export default new MusicCT();

@@ -2,10 +2,12 @@ import mongoose from "mongoose";
 
 const musicSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  artist: String,
-  album: String,
+  artist: { type: String},
   url: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now }
+  albom: { ref: "Albom",type: mongoose.Schema.Types.ObjectId, required: true}
+},{
+  versionKey: false,
+  timestamps: true
 });
 
-export default mongoose.model("Track", musicSchema);
+export default mongoose.model("Music", musicSchema);
