@@ -1,8 +1,0 @@
-export async function errorRes(res, error){
-    const statusCode = error.statusCode || 500;
-    const message = error.message || 'Internal server error';
-    return res.status(statusCode).json({
-        statusCode,
-        message
-    });
-}
