@@ -6,11 +6,10 @@ import albomValidation from "../validation/albom.validation.js";
 const router = express.Router();
 
 router
-    .post("/", validator(albomValidation.create),alboms.create)
-    .get("/", alboms.getAll)
-    .get("/:id", alboms.get)
-    .patch('/:id', validator(albomValidation.update ),alboms.update)
-    .delete('/:id', alboms.remove)
+  .post("/", validator(albomValidation.create), alboms.create)
+  .get("/", alboms.getAll)
+  .get("/:id", alboms.get)
+  .patch("/:id", validator(albomValidation.update), alboms.update)
+  .delete("/:id", alboms.remove);
 
-    
 export default router;
