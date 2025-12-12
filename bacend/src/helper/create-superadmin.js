@@ -12,7 +12,7 @@ export async function createSuperAdmin() {
                 email: envConfig.SUPERADMIN.EMAIL,
                 hashedPassword: await crypto.decode(envConfig.SUPERADMIN.PASSWORD)
             });
-            console.log('Super admin created successfully', superAdmin);
+            console.log('Super admin created successfully');
         }
     } catch (error) {
         console.error('Error on creating superadmin', error);

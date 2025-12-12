@@ -2,7 +2,7 @@ import { Schema,model } from "mongoose";
 import { Roles } from '../enum/index.js'
 
 const userSchema = new Schema({
-    username: { type: String, unique: true, required: true},
+    username: { type: String, unique: true},
     email: { type: String, unique: true, required: true},
     hashedPassword: { type: String, required: true},
     image: { type: String},

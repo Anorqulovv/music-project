@@ -6,10 +6,7 @@ import { BaseController } from './base.controller.js';
 
 class AlbomController extends BaseController {
     create = catchAsync(async (req, res) => {
-        const existAlbom = await Albom.findOne({ name: req.body?.name });
-        if (existAlbom) {
-            throw new ApiError('Albom name already exists', 409);
-        }
+        await this._isExist(req.body?.name, 'Albom');
         const albom = await Albom.create(req.body);
         return succesRes(res, albom, 201);
     })

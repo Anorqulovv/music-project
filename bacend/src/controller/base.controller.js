@@ -59,10 +59,13 @@ export class BaseController {
         if (!data) {
             throw new ApiError("Not found", 404);
         }
-
-        
-
-
         return data;
+    }
+
+    async _isExist(property, message) {
+        const existsData = await this.model.findOne(property);
+        if (existsData) {
+            throw new ApiError(`${message} already exists`, 409);
+        }
     }
 }
